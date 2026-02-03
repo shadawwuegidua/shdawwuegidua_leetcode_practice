@@ -37,18 +37,24 @@ bool isPalindrome(char* s, int left, int right) {
 }
 char* longestPalindrome(char* s) {
     int n = strlen(s);
-    if (n == 0) {
-        return "";
+    if (n < 2) {
+        return s;
     }
     int maxLength = 1;
     int start = 0;
-    for (int i = 0; i < n; i++) {
+    bool dp[n][n];
+    memset(dp, false, sizeof(dp));
+    for (int i = n-1; i >= 0; i--) {
         for (int j = i; j < n; j++) {
-            if (isPalindrome(s, i, j)) {
-                int currentLength = j - i + 1;
-                if (currentLength > maxLength) {
-                    maxLength = currentLength;
-                    start = i;
+            if (s[i]==s[j]) {
+                if(j-i<3||dp[i+1][j-1]){
+                    dp[i][j]=true;
+                    if ((j-i+1) > maxLength) {
+                        maxLength = j - i + 1;
+                        start = i;
+                    }
+                }else{
+                    dp[i][j]=false;
                 }
             }
         }
