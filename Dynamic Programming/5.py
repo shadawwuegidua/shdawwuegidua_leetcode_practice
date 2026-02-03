@@ -33,18 +33,33 @@ class Solution:
         return True
     def longestPalindrome(self, s: str) -> str:
         n = len(s)
-        if n == 0:
-            return ""
-        # dp = [[False]*n for _ in range(n)]
+        # if n == 0:
+        #     return ""
+        if n < 2:
+            return s
+        dp = [[False]*n for _ in range(n)]
+        # 这里太聪明了，通过二维数组的两个下标来代表字符串的起始和结束位置，从而表示子串
         max_len =1
         start = 0
-        for i in range(n):
+
+        for i in range(n-1, -1, -1):
             for j in range(i,n):
-                if(self.isPalindrome(s,i,j)):
-                    # dp[i][j]=True
-                    current_len = j - i + 1
-                    if current_len>max_len:
-                        max_len = j-i+1
-                        start = i
-        # s[start+max_len]='\0'
+                if s[i]==s[j]:
+                    if j-i<=2 or dp[i+1][j-1]:
+                        dp[i][j]=True
+                        current_len = j - i + 1
+                        if current_len>max_len:
+                            max_len = j-i+1
+                            start = i
+                    else:
+                        dp[i][j]=False
+        # for i in range(n):
+        #     for j in range(i,n):
+        #         if(self.isPalindrome(s,i,j)):
+        #             # dp[i][j]=True
+        #             current_len = j - i + 1
+        #             if current_len>max_len:
+        #                 max_len = j-i+1
+        #                 start = i
+        # # s[start+max_len]='\0'
         return s[start:start+max_len]
