@@ -40,11 +40,11 @@ class Solution:
         start = 0
         for i in range(n):
             for j in range(i,n):
-                if(isPalindrome(s,i,j)):
+                if(self.isPalindrome(s,i,j)):
                     # dp[i][j]=True
                     current_len = j - i + 1
                     if current_len>max_len:
                         max_len = j-i+1
                         start = i
-        s[start+max_len]='\0'
+        # s[start+max_len]='\0'
         return s[start:start+max_len]
