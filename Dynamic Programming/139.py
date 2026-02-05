@@ -35,12 +35,17 @@ class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
           n=len(s)
           m=len(wordDict)
-          for i in len(s):
+          dp = [False] * (n + 1)
+          dp[0] = True
+          for i in range(1,n+1):
+               #range只会走到后面的数字-1
                for j in range(m):
-                    if s[i:i+len(wordDict[j])]==wordDict[j]:
-                         s=s[:i]+' '+s[i:i+len(wordDict[j])]+' '+s[i+len(wordDict[j]):]
-          s=s.split()
-          
-
+                    word_length=len(wordDict[j])
+                    if i>=word_length:
+                         if s[i-word_length:i]==wordDict[j]:
+                              if dp[i-word_length]==True:
+                                   dp[i]=True
+                                   break
+          return dp[n]
 
           
