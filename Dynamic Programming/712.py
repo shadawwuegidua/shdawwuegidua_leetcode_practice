@@ -39,6 +39,7 @@ class Solution:
             # dp列表因为我们认为0时表示s1, s2为空的字符串。这时不占长度，因此让dp的m,n都多1
             # 因此实际上要让i-1，j-1表示字符串的第i,j个字符，毕竟前面多了一个空字符串0的长度1
 
+
         for i in range(1, m + 1):
             for j in range(1, n + 1):
                 dp[i][0] = dp[i - 1][0] + ord(s1[i - 1])
