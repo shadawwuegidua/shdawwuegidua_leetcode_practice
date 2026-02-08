@@ -36,21 +36,36 @@ s 和 t 由英文字母组成"""
 class Solution:
     def numDistinct(self, s: str, t: str) -> int:
         m , n = len(s), len(t)
-        
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
         # dfs(i, j) 表示：在 s[i:] 中匹配 t[j:] 的子序列个数
         # i: s 当前遍历到的下标
         # j: t 当前遍历到的下标
-        def dfs(i, j):
-            if i == m:
-                return 0
-            if j == n:
-                return 1
-            
-            if s[i] == t[j]:
-                return dfs(i + 1, j + 1) + dfs(i + 1, j)
-            elif s[i] != t[j]:
-                return dfs(i + 1, j)
+        # def dfs(i, j):
+        for i in range(m + 1):
+            dp[i][n] = 1
+        for i in range(m - 1, -1, -1):
+            # 这里是从m-1开始一直到0
+            for j in range(n - 1, -1, -1):
+                # if i == m:
+                #     return 0
+                # 这里应该放在后面，因为是从0,0开始调用的，如果放在前面的话，第一次调用就会返回0了
+                # if j == n:
+                    # dp[i][j] = 1
+                    # return 1
+                if i == m:
+                    dp[i][j] = 0
+                    # return 0   
+
+                if s[i] == t[j]:
+                    dp[i][j] = dp[i + 1][j + 1] + dp[i + 1][j]
+                    # return dp[i][j]
+                    # return dfs(i + 1, j + 1) + dfs(i + 1, j)
+                # elif s[i] != t[j]:
+                else:
+                    dp[i][j] = dp[i + 1][j]
+                # return dfs(i + 1, j)
         
-        return dfs(0 , 0)
+        # return dfs(0 , 0)
+        return dp[0][0]
             
                 
