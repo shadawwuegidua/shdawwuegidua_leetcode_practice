@@ -66,6 +66,30 @@ class Solution:
                 # return dfs(i + 1, j)
         
         # return dfs(0 , 0)
-        return dp[0][0]
+        dp[m][n] = 1
+        import collections
+        def bfs(i: int , j: int) -> int:
+            queue = collections.deque([(i, j)])
+            # collections类的deque
+            count = 0
+            while queue:
+                i, j = queue.popleft()
+                # deque的popleft方法，弹出最左边的元素
+
+                if j == n:
+                    count += 1
+                    continue
+                if i == m:
+                    continue
+
+                if s[i] == t[j]:
+                    queue.append((i + 1, j + 1))
+                #     queue.append((i + 1, j))
+                # else:
+                #     queue.append((i + 1, j))
+                queue.append((i + 1, j))
+            return count
+        return bfs(0, 0)
+        # return dp[0][0]
             
                 
