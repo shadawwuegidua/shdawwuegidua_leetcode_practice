@@ -105,7 +105,37 @@ class Solution:
                 memo = next_memo
             return memo.get(n, 0)
 
-        return bfs_optimized()
-        # return dp[0][0]
-            
+        def dp_optimized_dict():
+            # key: 匹配到了 t 的第几个字符 (也就是 j)
+            # value: 有多少种方案 (count)
+            # 初始化: 匹配了 0 个字符的方案数为 1
+            memo = {0: 1} 
+
+            # 遍历 s 的每一个字符 (相当于 i 的循环)
+            for char_s in s:
+                # 必须在这个循环内倒序处理，或者像你代码里那样新建一个 next_memo
+                # 为了方便理解，我们用新建字典的方式 (对应你的 next_memo)
                 
+                # 也就是：我们要根据上一轮的 memo，算出这一轮的 memo
+                # new_memo 继承 memo 的所有老本 (相当于 dp[i][j] = dp[i-1][j])
+                # 因为你不选 char_s 的话，原来的匹配方案依然成立
+                new_memo = memo.copy() 
+                
+                for j, count in memo.items():
+                    # j < n: 还没匹配完 t
+                    # char_s == t[j]: 当前 s 的字符正好是 t[j] 需要的字符
+                    if j < n and char_s == t[j]:
+                        # 我们可以扩展匹配长度！从 j 变成 j+1
+                        # get(j+1, 0) 是为了防止 j+1 这个键还没出现过
+                        new_memo[j + 1] = new_memo.get(j + 1, 0) + count
+                
+                # 更新状态
+                memo = new_memo
+            
+            # 最后返回匹配了 n 个字符 (即整个 t) 的方案数
+            return memo.get(n, 0)
+        return dp_optimized_dict()  
+        # return bfs_optimized()
+
+        # return dp[0][0]
+
