@@ -89,7 +89,23 @@ class Solution:
                 #     queue.append((i + 1, j))
                 queue.append((i + 1, j))
             return count
-        return bfs(0, 0)
+        
+        def bfs_optimized():
+            memo = {0: 1}
+            # 这里实际上字典的结构是 {j: count}，表示在s的当前遍历位置下，t的j位置匹配成功的子序列个数
+            # python中字典的key是唯一的，所以当j相同时，count会累加
+            for char_s in s:
+                next_memo = memo.copy()
+                for j, count in memo.items():
+                # items()方法返回一个可迭代的视图对象，包含字典的键值对
+                    if j < n and char_s == t[j]:
+                        next_memo[j + 1] = next_memo.get(j + 1, 0) + count
+                # get()的意思是比如memo.get(j + 1, 0)，如果j + 1在next_memo中存在，就返回next_memo[j + 1]的值，否则返回0
+                    next_memo[j] = next_memo.get(j, 0) + count
+                memo = next_memo
+            return memo.get(n, 0)
+
+        return bfs_optimized()
         # return dp[0][0]
             
                 
