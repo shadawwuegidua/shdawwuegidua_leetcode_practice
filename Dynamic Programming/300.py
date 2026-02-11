@@ -39,3 +39,22 @@ class Solution:
                 if nums[i] > nums[j]:
                     dp[i] = max(dp[i], dp[j] + 1)
         return max(dp)
+    def lengthOfLIS_optimized(self, nums: List[int]) -> int:
+        tails = []
+        for num in nums:
+            if tails == [] or num > tails[-1]:
+                tails.append(num)
+            else:
+                left, right = 0, len(tails) - 1
+                while left < right:
+                    current_location = (left + right) //2
+                    if tails[current_location] < num:
+                        left = current_location + 1
+                    else:
+                        right = current_location
+                # tails[current_location] = num
+                # 这里不是 current_location，而是 left 或 right，
+                # 因为 current_location 是在 while 循环中计算的，循环结束的时候它的值保留了上一个值
+                # 而循环结束后 left 和 right 会相等，指向正确的位置。
+                tails[left] = num
+        return len(tails)
