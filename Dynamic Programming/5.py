@@ -49,7 +49,7 @@ class Solution:
                         dp[i][j]=True
                         current_len = j - i + 1
                         if current_len>max_len:
-                            max_len = j-i+1
+                            max_len = current_len
                             start = i
                     else:
                         dp[i][j]=False
